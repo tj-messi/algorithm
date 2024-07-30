@@ -5,7 +5,7 @@ using namespace std;
 #define endl '\n' 
 
 const int N = 25;
-double dp[N][35000];//dp[i][s]表示目前状态是s，停在i位置的最优解 
+double dp[N][35000];//dp[i][s]表示目前状态是s，停在i位置的最优答案-最小 
 int n;
 struct node
 {
