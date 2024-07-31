@@ -5,23 +5,74 @@ using namespace std;
 #define endl '\n' 
 
 const int N = 5e4+5;
-int x[N],id[N];
-vector<int> v;//离散化使用 
+struct node
+{
+	int x,id;	
+};
+node a[N];
+vector<node> v;//离散化使用 
 int n;
-map<int,int> mp;
+map<int,int> mp,mp1;
+
+bool cmp(node n1,node n2)
+{
+	return n1.x<n2.x;
+}
 
 void solve()
 {
 	cin>>n;
-	for(int i=1;i<=n;i++)cin>>x[i]>>id[i];
+	for(int i=1;i<=n;i++)cin>>a[i].x>>a[i].id;
 	for(int i=1;i<=n;i++)
 	{
-		v.push_back(x[i]);
-		mp[id[i]]++;
+		v.push_back(a[i]);
+		mp[a[i].id]++;mp1[a[i].id]++;
 	}
-	sort(v.begin(),v.end());
-	v.erase(unique(v.begin(),v.end()),v.end());
-	int l=v[0];int r=v[v.size()-1];
+	sort(v.begin(),v.end(),cmp);
+	//cout<<l<<" "<<r;
+	int l=0;int r=v.size()-1;
+	while(1)
+	{
+		if(mp[v[l].id]>1)
+		{
+			mp[v[l].id]--;
+			l++;
+		}
+		else
+			break;
+	}
+	while(1)
+	{
+		if(mp[v[r].id]>1)
+		{
+			mp[v[r].id]--;
+			r--;
+		}
+		else 
+			break;
+	}
+	int l1=0;int r1=v.size()-1;
+	while(1)
+	{
+		if(mp1[v[r1].id]>1)
+		{
+			mp1[v[r1].id]--;
+			r1--;
+		}
+		else 
+			break;
+	}	
+	while(1)
+	{
+		if(mp1[v[l1].id]>1)
+		{
+			mp1[v[l1].id]--;
+			l1++;
+		}
+		else
+			break;
+	}
+	cout<<min(v[r].x-v[l].x,v[r1].x-v[l1].x);
 }
 
 signed main()
