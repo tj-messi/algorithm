@@ -13,6 +13,7 @@ struct node
 //double nowscore[N];//奥斯卡拿的最好成绩 
 //int dep[N];//偶数时候格莱美贪心，奇数时候奥斯卡贪心 
 //double ans=0;
+int vis[N];
 vector<vector<node>> t (N);//记录每个点的儿子 
 double dfs(int p,double cnt1,double cnt0,double nowbest,int depth)
 {
@@ -25,6 +26,8 @@ double dfs(int p,double cnt1,double cnt0,double nowbest,int depth)
 	double maxnow=0,minnow=1.5;
 	for(auto s : t[p])
 	{
+		if(vis[s.now]==0)continue;
+		vis[s.now]=1;
 		if(s.w==0)
 		{
 			double nnowbest=max(nowbest,(1+cnt0)/(cnt1+cnt0+1));
@@ -49,6 +52,7 @@ void solve()
 {
 	//memset(nowscore,0,sizeof nowscore); 
 	//ans=0;
+	memset(vis,0,sizeof vis);
 	int n;cin>>n;
 	for(int i=1;i<=n;i++)
 	{
@@ -59,6 +63,7 @@ void solve()
 		int f,s,w;
 		cin>>f>>s>>w;
 		t[f].push_back({s,w});
+		t[s].push_back({f,w});
 		//fa[s]=f;
 	}
 	//cout;//先跑一遍看答案 
