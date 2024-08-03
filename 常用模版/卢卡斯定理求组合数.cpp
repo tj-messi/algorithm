@@ -37,7 +37,7 @@ int lucas(int a,int b)
 
 void solve()
 {
-	//能够处理a，b<=1e18;p<=1e10之内；复杂度 
+	//能够处理a，b<=1e18;p<=1e10之内；
 	cout<<lucas(5,2);
 }
 
