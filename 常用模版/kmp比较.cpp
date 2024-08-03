@@ -4,6 +4,7 @@ using namespace std;
 #define ll long long
 #define endl '\n' 
 
+//∏¥‘”∂»o(n+m) 
 const int N =1e3+5;
 int nexta[N];
 
