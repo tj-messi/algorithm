@@ -24,22 +24,29 @@ void solve()
 	{
 		cout<<0<<endl;return;
 	}
+	
 	if(a[n]==max_single)
 	{
-		cout<<sum_double<<endl;
-		return;
+		cout<<sum_double<<endl;return;
 	}
 	else
 	{
-		for(int i=1;i<n;i++)
+		int res=0;
+		vector<int> v;
+		for(int i=1;i<=n;i++)
 		{
 			if(a[i]%2==0)
-				max_single+=a[i];
+			{
+				if(a[i]<max_single)
+				{
+					res++;max_single+=a[i];
+				}
+				else 
+					v.push_back(a[i]);
+			}
 		}
-		if(a[n]>max_single)
-			cout<<sum_double+1<<endl;
-		else
-			cout<<sum_double<<endl;
+		if(v.size()!=0)res+=(1+v.size());
+		cout<<res<<endl;return;
 	}
 }
 
