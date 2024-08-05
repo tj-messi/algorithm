@@ -4,25 +4,13 @@ using namespace std;
 #define ll long long
 #define endl '\n' 
 
-const int N = 10;
-int ans[N];
+const int N = 5e5+5;
+int a[N];
 
 void solve()
 {
-	int n;cin>>n;
-	memset(ans,0,sizeof ans);
-	for(int i=1;i<=4*n;i++)
-	{
-		char now;cin>>now;
-		if(now=='?')continue;
-		ans[now-'A'+1]++;
-	}
-	int res=0;
-	for(int i=1;i<=4;i++)
-	{
-		res+=min(ans[i],n);
-	}
-	cout<<res<<endl;
+	int n,k;cin>>n>>k;
+	for(int i=1;i<=n;i++)cin>>a[i];
 }
 
 signed main()
