@@ -13,7 +13,7 @@ struct Node
 	int to,val,next=0;
 };
 
-int head[MAXN]={0};
+int head[MAXN]={0};//可以存从某个节点出来了多少个边 
 Node node[MAXN];
 int tot=0;
 
