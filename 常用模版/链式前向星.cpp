@@ -17,11 +17,20 @@ int head[MAXN]={0};
 Node node[MAXN];
 int tot=0;
 
-void add()
+void add(int from,int to,int val)
+{
+	tot++;
+	node[tot].to=to;
+	node[tot].val=val;
+	node[tot].next=head[from];
+	head[from]=tot;
+}
 
 void solve()
 {
-	
+	add(1,2,5);
+	add(1,3,4);
+	cout<<node[1].val;
 }
 
 signed main()
