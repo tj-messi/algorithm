@@ -5,51 +5,43 @@ using namespace std;
 #define endl '\n' 
 
 /*
-SPFA就是bellman-fold的队列优化版本，负责解决负权图问题，复杂度 o(m)~o(n*m);
+并查集就是查看这个树（图）中点是否互通。解决很多“朋友”问题 
+有一种压缩路径的思想就是所有的点如果互连就统一指向根节点，用两个点指向的根点是否一致来判断是否在同一个集合内 
 */
+const int N = 1e4+5;
+int n,m;
+int fa[N];
 
-const int N=1e4+5;
-int n,m,d[N],inf=2e18;
-struct node{
-    int y,w;
-};
-vector<node>g1[N];
-bool spfa(int st){
-    bitset<N>inq;
-    queue<int>q;
-    q.push(st);
-    d[st]=0;
-    vector<int>cnt(n+2);
-    while(q.size()){
-        int x=q.front();q.pop();inq[x]=false;
-        for(auto [y,w]:g1[x]){
-            if(d[x]+w<d[y]){
-                if(++cnt[y]>=n)return true;
-                d[y]=d[x]+w;
-                if(!inq[y])q.push(y),inq[y]=true;
-            }
-        }
-    }
-    return false;
+int root(int x)
+{
+	return fa[x]=(x==fa[x]?x:root(fa[x]));
+} 
+
+void merge(int x,int y)
+{
+	fa[root(x)]=root(y);
 }
+
 
 void solve()
 {
 	cin>>n>>m;
-	for(int i=1;i<=m;i++){
-    	int x,y,w;cin>>x>>y>>w;
-    	g1[x].push_back({y,w});
-    	g1[y].push_back({x,w});
+	for(int i=1;i<=n;i++)fa[i]=i;
+	for(int i=1;i<=m;i++)
+	{
+		int op,a,b;cin>>op>>a>>b;
+		if(op==1)
+		{
+			merge(a,b);
+		}
+		else
+		{
+			if(root(a)!=root(b))
+				cout<<"N"<<endl;
+			else
+				cout<<"Y"<<endl;
+		}
 	}
-	for(int i=1;i<=n;i++)d[i]=inf;
-	if(spfa(1)){
-    	cout<<"-1";
-    	return;
-	}
-	else{
-    	for(int i=1;i<=n;i++)cout<<d[i]<<" ";
-	}
-return;
 }
 
 signed main()
