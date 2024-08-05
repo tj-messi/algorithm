@@ -4,27 +4,27 @@ using namespace std;
 #define ull unsigned long long
 #define endl '\n' 
 
-/*
-字典树trie
-通过像树一样构建子节点来简化查询前缀的过程
-比如三串字符abc,abd,abed;
-可以建成如下的字典树trie
-a-b-e-d
-   -c
-   -d 
-此时ab前缀就是3次 
-*/
-const int N = 1e3+5;
+
+const int N = 3e6+5;
 int idx=0;//各个节点的位置
-int son[N][26];//字典树
+int son[N][65];//字典树
 int cnt[N];//标记某个编号结尾的单词 
+
+int getnum(char x){
+    if(x>='A'&&x<='Z')
+        return x-'A';
+    else if(x>='a'&&x<='z')
+        return x-'a'+26;
+    else
+        return x-'0'+52;
+} 
 
 void insert(string s)
 {
 	int p=0;
 	for(int i=0;i<=s.size()-1;i++)
 	{
-		int u=s[i]-'a';//映射
+		int u=getnum(s[i]);//映射
 		if(!son[p][u])son[p][u]=++idx;
 		p=son[p][u];
 		cnt[p]++;
@@ -37,7 +37,7 @@ int query(string s)
 	int p=0;
 	for(int i=0;i<=s.size()-1;i++)
 	{
-		int u=s[i]-'a';
+		int u=getnum(s[i]);
 		if(!son[p][u])return 0;
 		p=son[p][u];
 	}
@@ -46,21 +46,30 @@ int query(string s)
 
 void solve()
 {
-	string s1="abc";
-	string s2="abc";
-	string s3="abc";
-	insert(s1);
-	insert(s2);
-	insert(s3);
-	cout<<query("a")<<endl;
+	 for(int i=0;i<=idx;i++)
+            for(int j=0;j<=65-1;j++)
+                son[i][j]=0;
+    for(int i=0;i<=idx;i++)
+        cnt[i]=0;
+    idx=0;
+	int n,m;cin>>n>>m;
+	for(int i=1;i<=n;i++)
+	{
+		string s;cin>>s;insert(s);
+	}
+	for(int i=1;i<=m;i++)
+	{
+		string s;cin>>s;
+		cout<<query(s)<<endl;
+	}
 }
 
 signed main()
 {
 	ios::sync_with_stdio(0),cin.tie(0),cout.tie(0);
 	int t;
-	//cin>>t;
 	t=1;
+	cin>>t;
 	while(t--)
 	{
 		solve();
