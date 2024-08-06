@@ -8,7 +8,7 @@ using namespace std;
 kruskal 最小生成树算法。把一个图中选定一定的边权，使得耗费最小
 贪心的想法，从最小的边权开始选择，如果两个点已经联通，那么就不选。
 复杂度o(mlogm) 
-相对于prim算法，kruskal适合简单图 
+相对于prim算法，kruskal适合简单图--因为他的复杂度和边挂钩 
 */
 const int N = 2e5+5;
 int n,m,tot=0,k=0;
