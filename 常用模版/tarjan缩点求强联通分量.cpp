@@ -64,8 +64,15 @@ void solve()
 	vector<int> v;
 	for(int i=1;i<=n;i++)
 	{
-		
+		if(cnt[i]>1)
+			v.push_back(cnt[i]);
 	}
+	if(v.size())
+	{
+		sort(v.begin(),v.end());
+		for(int i=0;i<v.size();i++)cout<<v[i]<<endl;
+	}
+	else cout<<-1<<endl;
 }
 
 signed main()
