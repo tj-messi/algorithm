@@ -15,38 +15,30 @@ const int N = 2e5+9;
 vector<int> g [N];
 int dfn[N];//时间戳
 int low[N];//最短的更新戳
-int stk[N];//用来存搜索树的stk
 int top,idx;
 //int col[N];//把强联通分量标记颜色
-int tot,cnt[N];//cnt可以记录强联通量的大小 
-bitset<N> ins; //标记是否进入过 
+int cnt1,cnt2;//cnt可以记录强联通量的大小 
 
-void tarjan(int x)
+
+void tarjan1(int x,int fa)
 {
 	dfn[x]=low[x]=++idx;
 	
-	stk[++top]=x;
-	ins[x]=true;
-	
+	int child=0;
 	for(auto y : g[x])
 	{
+		if(y==fa)continue;
 		if(!dfn[y])
 		{
-			tarjan(y);
+			tarjan1(y,x);
 			low[x]=min(low[x],low[y]);
+			if(low[y]>low[x])cnt2++;//割边的判断增加 
+			child+=(low[y]>=dfn[x]);//不回儿子的判断 
 		}
-		else if(ins[y])low[x]=min(low[x],dfn[y]);
+		else low[x]=min(low[x],dfn[y]);
 	}
 	
-	if(low[x]==dfn[x])
-	{
-		tot++;//开新颜色
-		while(stk[top+1]!=x)
-		{
-			cnt[tot]++;
-			ins[stk[top--]]=false;
-		 } 
-	}
+	if((!fa&&(child>=2))||(fa&&(child>=1)))cnt1++;//割点的判断增加 
 }
 
 void solve()
@@ -56,23 +48,13 @@ void solve()
 	{
 		int x,y;cin>>x>>y;
 		g[x].push_back(y);
+		g[y].push_back(x);
 	}
 	for(int i=1;i<=n;i++)
 	{
-		if(!dfn[i])tarjan(i);	
+		if(!dfn[i])tarjan1(i,0);	
 	} 
-	vector<int> v;
-	for(int i=1;i<=n;i++)
-	{
-		if(cnt[i]>1)
-			v.push_back(cnt[i]);
-	}
-	if(v.size())
-	{
-		sort(v.begin(),v.end());
-		for(int i=0;i<v.size();i++)cout<<v[i]<<endl;
-	}
-	else cout<<-1<<endl;
+	cout<<cnt1<<" "<<cnt2<<endl;
 }
 
 signed main()
