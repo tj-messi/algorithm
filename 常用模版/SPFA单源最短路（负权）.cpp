@@ -39,7 +39,7 @@ void solve()
 	for(int i=1;i<=m;i++){
     	int x,y,w;cin>>x>>y>>w;
     	g1[x].push_back({y,w});
-    	g1[y].push_back({x,w});
+    	//g1[y].push_back({x,w});
 	}
 	for(int i=1;i<=n;i++)d[i]=inf;
 	if(spfa(1)){
