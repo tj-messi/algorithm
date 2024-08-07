@@ -10,6 +10,7 @@ using namespace std;
 整个题目的思路就是：
 1：先处理fa数组，使用dp从小到大转移
 2：再处理出lca：深的先往上跳，跳到同一深度。之后x，y一起往上跳，如果x和y相等结束 
+复杂度o(大约logn) 
 */
 const int T = 20;
 const int N = 2e5+9;
