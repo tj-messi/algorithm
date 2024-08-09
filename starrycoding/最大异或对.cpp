@@ -21,12 +21,14 @@ int idx;
 void insert(int x)
 {
 	int o=0;
+	t[o].val++;
 	for(int i=30;i>=0;i--)
 	{
 		int y=x>>i&1;
 		int &u=t[o].son[y];
 		if(!u)u=++idx;
 		o=u;
+		t[o].val++;
 	}
 }
 

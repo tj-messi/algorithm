@@ -5,52 +5,52 @@ using namespace std;
 #define endl '\n' 
 
 /*
-并查集就是查看这个树（图）中点是否互通。解决很多“朋友”问题 
-有一种压缩路径的思想就是所有的点如果互连就统一指向根节点，用两个点指向的根点是否一致来判断是否在同一个集合内 
+并查集进阶
+启发式合并：普通的合并会严重破坏原本的树形结构，此时启发式合并，对原本的联通块加上了size属性，每次root把size小的指向size大的
+ 
 */
 const int N = 2e5+5;
-vector<int> g [N];
-int fa[N];
-int cnt[N];
 int n,m;
+int fa[N];
+int sz[N];
+int a[N];
 
 int root(int x)
 {
-	return fa[x]=(fa[x]==x ? x : root(fa[x]));
-}
+	return fa[x]=(x==fa[x]?x:root(fa[x]));
+} 
 
 void merge(int x,int y)
 {
-	fa[root(x)]=root(y);
+	int fx=root(x);int fy=root(y);
+	if(fx==fy)return;
+	if(sz[fx]>sz[fy])swap(fx,fy);
+	fa[fx]=fy;
+	sz[fy]+=sz[fx];
 }
+
 
 void solve()
 {
-	cin>>n>>m;
-	memset(cnt,0,sizeof cnt);
-	for(int i=1;i<=n;i++)fa[i]=i;
+	cin>>n;
+	for(int i=1;i<=n;i++)fa[i]=i,sz[i]=1;
+	for(int i=1;i<=n;i++)cin>>a[i];
+	cin>>m;
 	for(int i=1;i<=m;i++)
 	{
 		int x,y;cin>>x>>y;
-		g[x].push_back(y);
-		g[y].push_back(x);
 		merge(x,y);
-	} 
-	
+	}
+	int ans=0;
 	for(int i=1;i<=n;i++)
 	{
-		cnt[root(i)]++;
+		if(fa[(i)]!=i)a[root(i)]^=a[i];
 	}
-	vector<int> v;
 	for(int i=1;i<=n;i++)
 	{
-		if(cnt[i])v.push_back(cnt[i]);
+		if(fa[(i)]==i)ans=max(ans,a[i]);
 	}
-	sort(v.begin(),v.end());
-	for(int i=0;i<=v.size()-1;i++)
-	{
-		cout<<v[i]<<" ";
-	}
+	cout<<ans<<endl;
 }
 
 signed main()
